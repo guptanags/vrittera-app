@@ -1,23 +1,27 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import * as DocumentPicker from 'expo-document-picker';
+import DocumentPicker, { types } from 'react-native-document-picker';
 
 export default function ResumeScreen() {
   const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
 
   const pickDocument = async () => {
-    const result = await DocumentPicker.getDocumentAsync({ type: ['application/pdf', 'text/plain'] });
-    if (
-      !result.canceled &&
-      result.assets &&
-      result.assets[0] &&
-      typeof result.assets[0].size === 'number' &&
-      result.assets[0].size < 5 * 1024 * 1024
-    ) {
-      setFile(result.assets[0]);
-      Alert.alert('Success', 'Resume uploaded! ATS Score: 87/100');
-    } else {
-      Alert.alert('Error', 'File must be PDF/TXT and <5MB');
+    try {
+      const res = await DocumentPicker.pickSingle({
+        type: [types.pdf, types.plainText],
+      });
+      if (res && typeof res.size === 'number' && res.size < 5 * 1024 * 1024) {
+        setFile(res as any);
+        Alert.alert('Success', 'Resume uploaded! ATS Score: 87/100');
+      } else {
+        Alert.alert('Error', 'File must be PDF/TXT and <5MB');
+      }
+    } catch (err: any) {
+      if (DocumentPicker.isCancel(err)) {
+        // user cancelled
+        return;
+      }
+      Alert.alert('Error', 'Unable to pick file');
     }
   };
 
