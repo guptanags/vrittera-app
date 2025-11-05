@@ -5,41 +5,36 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import React, { useEffect } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
+import AppNavigator from './src/navigation/AppNavigator';
+
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  useEffect(() => {
+      // Replaced expo-notifications usage with a lightweight native
+      // AppState listener. If you plan to use push/local notifications
+      // without Expo, consider a native library such as
+      // @react-native-community/push-notification-ios or
+      // react-native-push-notification.
+      const subscription = AppState.addEventListener('change', (_nextState: AppStateStatus) => {
+        // placeholder: handle app state changes if needed
+        // tiny no-op to avoid unused-arg lint warnings
+      });
+
+      return () => {
+        subscription.remove();
+      };
+  }, []);
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AppNavigator />
+    </GestureHandlerRootView>
   );
 }
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
 
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
