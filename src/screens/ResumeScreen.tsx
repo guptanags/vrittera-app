@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import DocumentPicker, { types } from 'react-native-document-picker';
+import DocumentPicker, {types} from '@react-native-documents/picker';
 
 export default function ResumeScreen() {
   const [file, setFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);

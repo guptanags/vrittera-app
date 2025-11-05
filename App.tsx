@@ -9,6 +9,8 @@ import React, { useEffect } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
 function App() {
   useEffect(() => {
       // Replaced expo-notifications usage with a lightweight native
@@ -26,7 +28,11 @@ function App() {
       };
   }, []);
 
-  return <AppNavigator />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AppNavigator />
+    </GestureHandlerRootView>
+  );
 }
 
 
