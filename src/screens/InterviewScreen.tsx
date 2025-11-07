@@ -1,12 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import AudioRecorder from '../components/AudioRecorder';
 
 export default function InterviewScreen() {
+  const handleUploadComplete = (fileUrl: string) => {
+    console.log('Upload completed, fileUrl:', fileUrl);
+    // Show a toast or navigate to processing screen
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Interview Coach</Text>
       <Text style={styles.desc}>Practice with AI — get 95% accurate feedback</Text>
+      <Text style={styles.limit}>Record your interview answer and upload. We'll process it and return feedback.</Text>
       <Text style={styles.limit}>1/2 sessions used (Free)</Text>
+      <AudioRecorder onUploadComplete={handleUploadComplete} />
     </View>
   );
 }
