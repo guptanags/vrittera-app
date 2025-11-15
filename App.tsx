@@ -8,6 +8,7 @@
 import React, { useEffect } from 'react';
 import { AppState, AppStateStatus } from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
+import { AuthProvider } from './src/components/AuthProvider';
 
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -30,7 +31,9 @@ function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AppNavigator />
+      <AuthProvider>
+        <AppNavigator />
+      </AuthProvider>
     </GestureHandlerRootView>
   );
 }

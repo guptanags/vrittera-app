@@ -11,21 +11,35 @@ import JobTrackerScreen from '../screens/JobTrackerScreen';
 import SkillGapScreen from '../screens/SkillGapScreen';
 import LinkedInScreen from '../screens/LinkedInScreen';
 import SalaryScreen from '../screens/SalaryScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import ResumeResult from '../screens/ResumeResult';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const MainTabs = () => (
   <Tab.Navigator
-    screenOptions={{
+    screenOptions={() => ({
       headerShown: true,
-      tabBarActiveTintColor: '#00BFFF',
-      tabBarInactiveTintColor: '#001F3F',
-    }}
+      headerStyle: {
+        backgroundColor: '#0F1724', // A dark blue, matching other components
+        elevation: 0, // Remove shadow on Android
+        shadowOpacity: 0, // Remove shadow on iOS
+        borderBottomWidth: 0,
+      },
+      headerTintColor: '#E6EEF8', // Light color for title and icons
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+      tabBarActiveTintColor: '#3b82f6',
+      tabBarInactiveTintColor: 'gray',
+    })}
   >
     <Tab.Screen
       name="Dashboard"
       component={Dashboard}
+    
       options={{
         tabBarLabel: 'Home',
       }}
@@ -45,10 +59,10 @@ const MainTabs = () => (
       }}
     />
     <Tab.Screen
-      name="Jobs"
-      component={JobTrackerScreen}
+      name="Profile"
+      component={ProfileScreen}
       options={{
-        tabBarLabel: 'Jobs',
+        tabBarLabel: 'Profile',
       }}
     />
   </Tab.Navigator>
@@ -73,6 +87,8 @@ export default function AppNavigator() {
         <Stack.Screen name="SkillGap" component={SkillGapScreen} />
         <Stack.Screen name="LinkedIn" component={LinkedInScreen} />
         <Stack.Screen name="Salary" component={SalaryScreen} />
+        <Stack.Screen name="JobTracker" component={JobTrackerScreen} />
+        <Stack.Screen name="ResumeResult" component={ResumeResult} />
       </Stack.Navigator>
     </NavigationContainer>
   );
