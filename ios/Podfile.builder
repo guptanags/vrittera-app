@@ -11,25 +11,20 @@ prepare_react_native_project!
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => static
+  use_frameworks! :linkage => linkage.to_sym
 end
 
 target 'vrittera' do
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app'
+
   config = use_native_modules!
-  use_frameworks! :linkage => :static
-  $RNFirebaseAsStaticFramework = true
+
   use_react_native!(
     :path => config[:reactNativePath],
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
-  pod 'FirebaseAuth'
-  pod 'FirebaseAuthInterop', :modular_headers => true
-  pod 'FirebaseAppCheckInterop', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'FirebaseCoreExtension', :modular_headers => true
-  pod 'GoogleUtilities', :modular_headers => true
-  pod 'RecaptchaInterop', :modular_headers => true
+
   post_install do |installer|
     react_native_post_install(
       installer,
